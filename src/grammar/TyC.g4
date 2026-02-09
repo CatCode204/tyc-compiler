@@ -26,7 +26,6 @@ options{
 // ================================= TyC Program Structure =============================//
 
 program : (struct_decl | function_decl)* EOF;
-//program : (prefix_update | postfix_update)* EOF;
 
 struct_decl : STRUCT_KEYWORD ID LB_SEP member_list? RB_SEP SM_SEP;
 member_list : member member_list | member;
