@@ -243,8 +243,8 @@ class ASTGeneration(TyCVisitor):
         
             if ctx.ID():
                 return Identifier(ctx.ID().getText())
-        
-        if ctx.getChildCount() == 3:
+
+        if ctx.getChildCount() > 1: # BULLSHIT CODE HERE
             if ctx.LP_SEP() and ctx.expression() and ctx.RP_SEP():
                 return ctx.expression().accept(self)
 
@@ -346,7 +346,13 @@ class ASTGeneration(TyCVisitor):
 
     # for_statement : FOR_KEYWORD LP_SEP for_init? SM_SEP for_condition? SM_SEP for_update? RP_SEP statement;
     def visitFor_statement(self, ctx:TyCParser.For_statementContext):
-        for_init = ctx.for_init().accept(self) if ctx.for_init() else None
+        for_init = None
+        if ctx.for_init():
+            if isinstance(ctx.for_init().accept(self),AssignExpr):
+                for_init = ExprStmt(ctx.for_init().accept(self))
+            else:
+                for_init = ctx.for_init().accept(self)
+        
         for_condition = ctx.for_condition().accept(self) if ctx.for_condition() else None
         for_update = ctx.for_update().accept(self) if ctx.for_update() else None
         for_stmt = ctx.statement().accept(self)
