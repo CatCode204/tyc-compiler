@@ -5,6 +5,7 @@ TODO: Implement 100 test cases for AST generation
 
 import pytest
 from tests.utils import ASTGenerator
+from src.utils.nodes import *
 
 """
 def test_ast_gen_placeholder():
@@ -2082,7 +2083,7 @@ void main() {
             "[], " \
             "BlockStmt([ForStmt(" \
                 "for " \
-                    "AssignExpr(Identifier(i) = IntLiteral(0)); " \
+                    "ExprStmt(AssignExpr(Identifier(i) = IntLiteral(0))); " \
                     "BinaryOp(Identifier(i), <, IntLiteral(10)); " \
                     "PostfixOp(Identifier(i)++) " \
                 "do BlockStmt([" \
