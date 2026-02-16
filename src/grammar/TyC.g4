@@ -148,7 +148,7 @@ UNCLOSE_STRING: '"' STR_VALID_CHAR* '\\'? ('\n' | '\r\n' | EOF) {
 // ================================= Expression ==============================//
 list_expression : expression CM_SEP list_expression | expression;
 
-expression : assign_expression | expression1;
+expression : expression1 ASSIGN_OP expression | expression1;
 expression1 : expression1 LOGIC_OR_OP expression2 | expression2;
 expression2 : expression2 LOGIC_AND_OP expression3 | expression3;
 expression3 : expression3 (EQ_OP | NEQ_OP) expression4 | expression4;

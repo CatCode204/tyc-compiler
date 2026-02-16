@@ -131,9 +131,13 @@ class ASTGeneration(TyCVisitor):
         return [ctx.expression().accept(self)] + ctx.list_expression().accept(self)
 
 
-    # expression : assign_expression | expression1;
+    # expression : expression1 ASSIGN_OP expression | expression1;
     def visitExpression(self, ctx:TyCParser.ExpressionContext):
-        return ctx.getChild(0).accept(self)
+        if ctx.getChildCount() == 1: #expression
+            return ctx.expression1().accept(self)
+        
+        # expression1 ASSIGN_OP expression
+        return AssignExpr(ctx.expression1().accept(self),ctx.expression().accept(self))
 
 
     # expression1 : expression1 LOGIC_OR_OP expression2 | expression2;
